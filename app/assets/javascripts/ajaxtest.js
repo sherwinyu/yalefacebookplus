@@ -13,10 +13,12 @@ $(document).ready( function() {
     var $q = $(this);
     $('#mirror').text($q.val());
     setIFrame(get_url($q.val()));
+    var $frame = $('#frame');
+    $frame[0].contents().find('tr').each( function(i) {
+      $(this).insertAfter('#mirror');
+      });
+    //for (i in frame[0].contents().find('tr')) { }
     });
-
-
-  dbg("hello");
 
   function dbg(val) {console.log(val)};
 
@@ -79,7 +81,7 @@ function setIFrame(url) {
 
   function get_url(q) {
     // return 'http://gdata.youtube.com/feeds/api/videos?q='+q;
-    return 'https://students.yale.edu/facebook/?searchTerm='+q+'&searchType=lastname&searchResult=true';
+    return 'https://students.yale.edu/facebook/Search?searchTerm='+q+'&searchType=lastname&searchResult=true';
   }
 });
 
