@@ -1,44 +1,78 @@
 var count = 0;
 var outer;
 
-$.ajaxSetup({ jsonp: null, jsonpCallback: null });
 
 $(document).ready( function() {
   $('input#ajax_input').val("hello");
+
   $('input#ajax_input').keyup( function(e) {
     e.preventDefault();
     var $q = $(this);
-    // $('div#content').html($q.val());
-    // $.get('http://suggestqueries.google.com/complete/search?hl=en&ds=yt&client=youtube&hjson=t&jsonp=window.yt.www.suggest.handleResponse&q='+ $q.val()+'&cp=1', function(data) {$('div#content').html(data) });
-
-    query = $q.val();
-    the_url = 'http://gdata.youtube.com/feeds/api/videos?q='+query;
-    the_url = 'https://students.yale.edu/facebook/?searchTerm='+query+'&searchType=lastname';
-    var jqxhr = $.ajax({type:"GET",
-    url:the_url,
-    dataType:"jsonp text",
-    xhrFields: { withCredentials: true},
-    success:function(responseData) {
-
-        $('div#content').text( responseData[0]);
-      // dbg(responseData.slice(0,100));
-      outer=responseData;
-      dbg("here");
-    }});
-    //.success(function() { alert("second success"); })
-    //.error(function(test, errStr) { alert("error"); dbg("error: " + errStr + "test: " + test.responseText + this.responseTxt);})
-    //.complete(function() { alert("complete"); });
-
-
-    count++;
-    dbg("count=" + count);
+    $('#mirror').text($q.val());
+    setIFrame(get_url($q.val()));
     });
 
 
   dbg("hello");
 
-  $('#frame').attr('src', get_url($('input#ajax_input').val()));
   function dbg(val) {console.log(val)};
+
+  function ajax_get(url) {
+    $.get(url, setDivCallback);
+    count++;
+    dbg("ajax_get" + count);
+  }
+
+  function ajax_jsonp(url) {
+    $.ajax({type:"GET",
+        url: url,
+        dataType:"jsonp",
+        success: setDivCallback});
+    //.success(function() { alert("second success"); })
+    //.error(function(test, errStr) { alert("error"); dbg("error: " + errStr + "test: " + test.responseText + this.responseTxt);})
+    //.complete(function() { alert("complete"); });
+    count++;
+    dbg("ajax_jsonp" + count);
+  }
+
+  function ajax_jsonp_text(url) {
+    $.ajax({type:"GET",
+        url: url,
+        dataType:"jsonp text",
+        success: setDivCallback});
+    count++;
+    dbg("ajax_jsonp_text" + count);
+  }
+
+
+  function ajax_text_xhfr(url) {
+    $.ajax({type:"GET",
+        url: url,
+        dataType:"text",
+        xhrFields: { withCredentials: true},
+        success: setDivCallback});
+    count++;
+    dbg("text" + count);
+  }
+
+  function ajax_text(url) {
+    $.ajax({type:"GET",
+        url: url,
+        dataType:"text",
+        success: setDivCallback});
+    count++;
+    dbg("text" + count);
+  }
+
+  function setDivCallback(data) {
+    str = data.slice(0, 100);
+    $('div#content').text(str);
+    dbg("...ajax " + str );
+  }
+function setIFrame(url) {
+  $('#frame').attr('src', url);
+    dbg("...iframe " );
+}
 
   function get_url(q) {
     // return 'http://gdata.youtube.com/feeds/api/videos?q='+q;
