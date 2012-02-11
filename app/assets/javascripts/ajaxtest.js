@@ -4,6 +4,9 @@ var outer;
 
 $(document).ready( function() {
   $('input#ajax_input').val("hello");
+  $('#frame').attr('height', 1000);
+  $('#frame').attr('width', 1000);
+
 
   $('input#ajax_input').keyup( function(e) {
     e.preventDefault();
@@ -76,7 +79,7 @@ function setIFrame(url) {
 
   function get_url(q) {
     // return 'http://gdata.youtube.com/feeds/api/videos?q='+q;
-    return 'https://students.yale.edu/facebook/?searchTerm='+q+'&searchType=lastname';
+    return 'https://students.yale.edu/facebook/?searchTerm='+q+'&searchType=lastname&searchResult=true';
   }
 });
 
