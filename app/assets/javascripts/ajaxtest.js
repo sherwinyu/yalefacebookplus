@@ -14,7 +14,7 @@ $(document).ready( function() {
     $('#mirror').text($q.val());
     setIFrame(get_url($q.val()));
     var $frame = $('#frame');
-    $frame[0].contents().find('tr').each( function(i) {
+    $frame.contents().find('tr').each( function(i) {
       $(this).insertAfter('#mirror');
       });
     //for (i in frame[0].contents().find('tr')) { }
